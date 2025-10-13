@@ -1,0 +1,233 @@
+@import "tailwindcss";
+/* === Custom Luxe + Animations === */
+@keyframes floatWave {
+  0% { transform: translateY(0); opacity: .45; }
+  50% { transform: translateY(-20px); opacity: .7; }
+  100% { transform: translateY(0); opacity: .45; }
+}
+.wave-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at 50% 40%, rgba(59,130,246,.4), transparent 70%),
+    radial-gradient(40% 40% at 20% 70%, rgba(99,102,241,.35), transparent 70%),
+    radial-gradient(50% 50% at 80% 60%, rgba(56,189,248,.3), transparent 70%);
+  filter: blur(70px);
+  animation: floatWave 10s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn .8s ease-out both; }
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg,
+    rgba(59,130,246,0) 0%,
+    rgba(255,255,255,0.25) 40%,
+    rgba(59,130,246,0) 80%);
+  background-size: 200% 100%;
+  animation: shimmer 6s linear infinite;
+  animation-delay: 1s;
+  animation-duration: 14s; /* once about every 14 s */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.feature-anim {
+  opacity: 0;
+  animation: fadeUp .8s ease-out forwards;
+}
+
+/* === Fade-in animation === */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.fade-in > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.fade-in > *:nth-child(1) { animation-delay: 0s; }
+.fade-in > *:nth-child(2) { animation-delay: 0.25s; }
+.fade-in > *:nth-child(3) { animation-delay: 0.5s; }
+
+/* === Power-up glow animation === */
+@keyframes pulseGlow {
+  0% {
+    filter: brightness(0.6) blur(2px);
+    transform: scale(0.95);
+  }
+  50% {
+    filter: brightness(1.8) blur(0px);
+    transform: scale(1.02);
+  }
+  100% {
+    filter: brightness(1) blur(0px);
+    transform: scale(1);
+  }
+}
+
+/* Combine fade + glow */
+.fade-in-power {
+  animation: fadeInUp 1.2s ease-out forwards, pulseGlow 1.8s ease-out 1;
+}
+
+/* EchoWave rings */
+@keyframes echoWave {
+  0%   { transform: scale(0.90); opacity: 0;   }
+  10%  {                 opacity: 0.35;        }
+  100% { transform: scale(1.30); opacity: 0;   }
+}
+
+.echo-ring {
+  position: absolute;
+  inset: -10px;              /* slightly bigger than the logo */
+  border-radius: 9999px;
+  border: 2px solid rgba(96,165,250,0.35); /* blue-400 */
+  animation: echoWave 4.8s ease-out infinite;
+  mix-blend-mode: screen;    /* glowy blend on dark bg */
+}
+
+.echo-ring--2 {
+  border-color: rgba(139,92,246,0.28);   /* indigo-500 */
+  animation-delay: 1.6s;
+}
+
+.echo-ring--3 {
+  border-color: rgba(147,197,253,0.22);  /* blue-300 */
+  animation-delay: 3.2s;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .echo-ring { animation: none; opacity: 0; }
+}
+
+/* --- Glow & hover lift effects --- */
+.glow-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glow-hover:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.35),
+              0 0 40px rgba(139, 92, 246, 0.25);
+}
+
+/* For buttons, a brighter variant */
+.glow-btn {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.glow-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 22px rgba(59, 130, 246, 0.5),
+              0 0 50px rgba(139, 92, 246, 0.35);
+}
+
+/* === 1) Breathing glow for primary CTA === */
+@keyframes breathe {
+  0%   { transform: scale(1);   box-shadow: 0 0 0 rgba(59,130,246,0.0), 0 0 0 rgba(139,92,246,0.0); }
+  50%  { transform: scale(1.03); box-shadow: 0 0 18px rgba(59,130,246,0.35), 0 0 36px rgba(139,92,246,0.25); }
+  100% { transform: scale(1);   box-shadow: 0 0 0 rgba(59,130,246,0.0), 0 0 0 rgba(139,92,246,0.0); }
+}
+.glow-breathe {
+  animation: breathe 3.8s ease-in-out infinite;
+}
+
+/* keep your previous hover glow if you like */
+.glow-btn { transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+.glow-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 22px rgba(59,130,246,.5), 0 0 50px rgba(139,92,246,.35);
+}
+
+/* === 2) Mouse-follow echo wave in hero === */
+.hero-trail {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  /* radial “halo” that follows CSS vars --mx / --my */
+  background: radial-gradient(
+    180px 180px at var(--mx, 50%) var(--my, 35%),
+    rgba(96,165,250,0.18),
+    rgba(99,102,241,0.10) 40%,
+    transparent 65%
+  );
+  transition: background 120ms ease-out;
+  mix-blend-mode: screen; /* subtle glow on dark bg */
+  filter: blur(4px);
+}
+
+/* === Ambient animated background (subtle) === */
+@keyframes auroraShift {
+  0%   { background-position: 0% 50%; transform: translateY(0px) scale(1); }
+  50%  { background-position: 100% 50%; transform: translateY(-6px) scale(1.02); }
+  100% { background-position: 0% 50%; transform: translateY(0px) scale(1); }
+}
+
+.aurora-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;                               /* content sits above (z-10) */
+  background:
+    radial-gradient(60% 50% at 20% 25%, rgba(59,130,246,0.18), transparent 60%),
+    radial-gradient(50% 45% at 80% 30%, rgba(139,92,246,0.16), transparent 60%),
+    radial-gradient(70% 60% at 50% 80%, rgba(56,189,248,0.12), transparent 60%),
+    linear-gradient(120deg, rgba(15,23,42,1), rgba(15,23,42,0.9));
+  background-size: 200% 200%;
+  filter: blur(18px);
+  opacity: 0.7;
+  animation: auroraShift 18s ease-in-out infinite;
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-bg { animation: none; }
+}
+
+/* Unified CTA button style */
+.shared-btn {
+  @apply px-5 py-3 rounded-lg border border-white/20 bg-white/10 text-white shadow-lg transition-all duration-300 ease-out;
+  backdrop-filter: blur(6px);
+}
+
+/* Hover glow + slight lift */
+.shared-btn:hover {
+  @apply border-white/40 bg-white/20 scale-105;
+  box-shadow: 0 0 25px rgba(99,102,241,0.45), 0 0 15px rgba(59,130,246,0.35);
+}
+
+/* Active press effect */
+.shared-btn:active {
+  @apply scale-95;
+  box-shadow: 0 0 10px rgba(59,130,246,0.4);
+}
