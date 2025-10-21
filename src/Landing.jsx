@@ -112,7 +112,7 @@ export default function Landing() {
   };
 
   return (
-  <main className="relative pt-24 md:pt-0 overflow-visible md:overflow-hidden min-h-[100svh] md:min-h-screen flex flex-col items-center justify-center bg-[#0B1222] text-white px-4 **prevent-clip**">
+  <main className="relative pt-24 md:pt-0 overflow-visible min-h-[100svh] md:min-h-screen flex flex-col items-center justify-center bg-[#0B1222] text-white px-4 **prevent-clip**">
 
 <div className="md:hidden fixed inset-0 -z-10 bg-[#0B1222]" aria-hidden="true" />
 
@@ -140,7 +140,7 @@ export default function Landing() {
 </div>
 
 {/* Logo — DESKTOP (unchanged) */}
-<div className="hidden md:block relative mx-auto mb-5 h-20 w-20">
+<div className="hidden md:block relative mx-auto mb-5 h-20 w-20 overflow-visible">
   <div className="echo-ring" />
   <div className="echo-ring echo-ring--2" />
   <div className="echo-ring echo-ring--3" />
