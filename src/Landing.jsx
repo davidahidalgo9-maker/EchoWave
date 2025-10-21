@@ -154,7 +154,7 @@ return (
       <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(59,130,246,0.3)]">
         {site.brand}
       </h1>
-      <p className="mt-2 text-base sm:text-lg text-gray-100 tracking-wide">
+      <p className="mt-2 text-lg sm:text-lg text-gray-100 tracking-wide">
         {site.subheadline}
       </p>
 
