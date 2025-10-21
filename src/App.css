@@ -41,15 +41,16 @@
   color: #888;
 }
 
-/* === Mobile-only full-page background & scroll behavior === */
+/* Mobile-only: force dark background everywhere, stop iOS bounce from showing white */
 @media (max-width: 767px) {
-  html, body, **#root, main** {
-    background: #0B1222;
-    min-height: 100svh;
-    overscroll-behavior: none;
+  :root {
+    color-scheme: dark;   /* helps iOS choose dark overscroll surfaces */
   }
 
-  /** safety: if anything is clipping on mobile */
-  **.prevent-clip { overflow: visible !important; }**
-}
+  html, body, #root, main {
+    background: #0B1222 !important;
+    min-height: 100svh;          /* safe viewport height */
+    height: 100%;                /* fill any gaps */
 
+  }
+}

@@ -124,7 +124,11 @@ return (
     <div className="relative z-10 max-w-3xl mx-auto text-center overflow-visible pt-[calc(env(safe-area-inset-top)+12px)] md:pt-0">
 
       {/* Logo — MOBILE */}
-      <div className="md:hidden relative mx-auto mb-4 w-[50vw] max-w-[260px] aspect-square mt-[calc(env(safe-area-inset-top)+28px)]">
+      <div className="md:hidden relative mx-auto mb-4
+-   w-[50vw] max-w-[260px] aspect-square
++   w-[40vw] max-w-[200px] aspect-square
+    mt-[calc(env(safe-area-inset-top)+28px)]">
+
         <div className="echo-ring" />
         <div className="echo-ring echo-ring--2" />
         <div className="echo-ring echo-ring--3" />
