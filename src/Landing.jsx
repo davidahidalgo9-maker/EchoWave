@@ -120,10 +120,15 @@ export default function Landing() {
       <div className="aurora-bg" aria-hidden="true" />
 
       {/* HERO */}
-      <div className="relative z-10 max-w-3xl mx-auto text-center pt-safe pt-6 md:pt-0">
+      <div className="relative z-10 max-w-3xl mx-auto text-center
+                overflow-visible md:overflow-hidden
+                pt-[calc(env(safe-area-inset-top)+12px)] md:pt-0">
 
-       {/* Logo + echo rings — MOBILE */}
-<div className="md:hidden relative mx-auto mb-5 w-[72vw] max-w-[420px] aspect-square">
+
+       {/* Logo — MOBILE */}
+<div className="md:hidden relative mx-auto mb-4
+                w-[50vw] max-w-[260px] aspect-square
+                mt-[calc(env(safe-area-inset-top)+28px)]">
   <div className="echo-ring" />
   <div className="echo-ring echo-ring--2" />
   <div className="echo-ring echo-ring--3" />
@@ -134,7 +139,7 @@ export default function Landing() {
   />
 </div>
 
-{/* Logo + echo rings — DESKTOP (original size) */}
+{/* Logo — DESKTOP (unchanged) */}
 <div className="hidden md:block relative mx-auto mb-5 h-20 w-20">
   <div className="echo-ring" />
   <div className="echo-ring echo-ring--2" />
@@ -145,6 +150,8 @@ export default function Landing() {
     className="h-20 w-20 brightness-125 mix-blend-screen"
   />
 </div>
+
+
 
 
 
