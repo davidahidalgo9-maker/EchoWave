@@ -1,6 +1,16 @@
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#020617] to-[#0f172a] flex flex-col items-center justify-center text-white text-center px-6">
+  <>
+    {/* Mobile fixed backdrop to guarantee no white shows */}
+    <div className="md:hidden fixed inset-0 bg-[#0B1222]" style={{ zIndex: -1 }} />
+
+    {/* your existing root wrapper STARTS here */}
+    <div className="min-h-[100svh] md:min-h-screen bg-gradient-to-b from-[#0B1220] to-[#0B172a] flex flex-col items-center justify-center text-white text-center px-6">
+      {/* ...rest of your content... */}
+    </div>
+  </>
+);
+
       {/* Logo / Brand Name */}
       <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-lg">
         EchoWave

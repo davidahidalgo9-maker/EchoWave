@@ -27,7 +27,7 @@ const features = [
 ];
 
 export default function Landing() {
-  // Centered modal popup for Voiceflow share link (gentle scale, not zoomed)
+  // Centered modal popup for Voiceflow share link (responsive sizing)
   const openChatModal = () => {
     if (!document.getElementById("vfModalStyles")) {
       const style = document.createElement("style");
@@ -40,6 +40,10 @@ export default function Landing() {
       `;
       document.head.appendChild(style);
     }
+
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+    const modalW = isMobile ? Math.round(window.innerWidth * 0.92) : 400; // px
+    const modalH = isMobile ? Math.round(window.innerHeight * 0.82) : 600; // px
 
     const backdrop = document.createElement("div");
     Object.assign(backdrop.style, {
@@ -57,10 +61,10 @@ export default function Landing() {
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      width: "400px",
-      height: "600px",
+      width: `${modalW}px`,
+      height: `${modalH}px`,
       border: "none",
-      borderRadius: "16px",
+      borderRadius: isMobile ? "12px" : "16px",
       overflow: "hidden",
       background: "transparent",
       zIndex: "9999",
@@ -70,10 +74,12 @@ export default function Landing() {
 
     const closeBtn = document.createElement("button");
     closeBtn.textContent = "✕";
+    const closeTop = `calc(50% - ${Math.round(modalH / 2) + 10}px)`;
+    const closeRight = `calc(50% - ${Math.round(modalW / 2) + 10}px)`;
     Object.assign(closeBtn.style, {
       position: "fixed",
-      top: "calc(50% - 330px)",
-      right: "calc(50% - 230px)",
+      top: closeTop,
+      right: closeRight,
       zIndex: "10000",
       background: "rgba(0,0,0,0.45)",
       color: "white",
@@ -81,8 +87,9 @@ export default function Landing() {
       fontSize: "20px",
       cursor: "pointer",
       padding: "6px 10px",
-      borderRadius: "6px",
+      borderRadius: "8px",
       backdropFilter: "blur(2px)",
+      lineHeight: "1",
     });
 
     const closeModal = () => {
@@ -105,41 +112,64 @@ export default function Landing() {
   };
 
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0B1222] text-white">
+  <main className="relative pt-24 md:pt-0 overflow-visible md:overflow-hidden min-h-[100svh] md:min-h-screen flex flex-col items-center justify-center bg-[#0B1222] text-white px-4 **prevent-clip**">
+
+<div className="md:hidden fixed inset-0 -z-10 bg-[#0B1222]" aria-hidden="true" />
+
       {/* ambient animated gradient (defined as .aurora-bg in index.css) */}
       <div className="aurora-bg" aria-hidden="true" />
 
       {/* HERO */}
-      <div className="relative z-10 max-w-3xl mx-auto text-center fade-in-power">
-        {/* Logo + animated echo rings */}
-        <div className="relative mx-auto mb-6 h-20 w-20">
-          <div className="echo-ring"></div>
-          <div className="echo-ring echo-ring--2"></div>
-          <div className="echo-ring echo-ring--3"></div>
-          <img
-            src="/echowave-mark-transparent.svg"
-            alt="EchoWave logo"
-            className="relative z-10 h-20 w-20 brightness-125 mix-blend-screen"
-          />
-        </div>
+      <div className="relative z-10 max-w-3xl mx-auto text-center pt-safe pt-6 md:pt-0">
 
-        <h1 className="text-6xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(59,130,246,0.3)] animate-shimmer-delayed">
+       {/* Logo + echo rings — MOBILE */}
+<div className="md:hidden relative mx-auto mb-5 w-[72vw] max-w-[420px] aspect-square">
+  <div className="echo-ring" />
+  <div className="echo-ring echo-ring--2" />
+  <div className="echo-ring echo-ring--3" />
+  <img
+    src="/echowave-mark-transparent.svg"
+    alt="EchoWave logo"
+    className="pointer-events-none select-none w-full h-full object-contain object-top brightness-125 mix-blend-screen"
+  />
+</div>
+
+{/* Logo + echo rings — DESKTOP (original size) */}
+<div className="hidden md:block relative mx-auto mb-5 h-20 w-20">
+  <div className="echo-ring" />
+  <div className="echo-ring echo-ring--2" />
+  <div className="echo-ring echo-ring--3" />
+  <img
+    src="/echowave-mark-transparent.svg"
+    alt="EchoWave logo"
+    className="h-20 w-20 brightness-125 mix-blend-screen"
+  />
+</div>
+
+
+
+
+
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(59,130,246,0.3)] animate-shimmer-delayed">
           {site.brand}
         </h1>
-        <p className="mt-2 text-lg text-gray-100 tracking-wide">
+        <p className="mt-2 text-base sm:text-lg text-gray-100 tracking-wide">
           {site.subheadline}
         </p>
 
-        {/* CTAs (unified style via .shared-btn) */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button onClick={openChatModal} className="shared-btn">
+        {/* CTAs */}
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+          <button
+            onClick={openChatModal}
+            className="shared-btn w-full sm:w-auto min-h-[44px]"
+          >
             Try the Live Demo
           </button>
           <a
             href={site.calendly}
             target="_blank"
             rel="noreferrer"
-            className="shared-btn"
+            className="shared-btn w-full sm:w-auto min-h-[44px]"
           >
             Book a 10-Minute Call
           </a>
@@ -147,11 +177,11 @@ export default function Landing() {
       </div>
 
       {/* FEATURE BUBBLES */}
-      <section className="relative z-10 mt-12 max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-4 px-4">
+      <section className="relative z-10 mt-10 sm:mt-12 max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 px-0 sm:px-2">
         {features.map((f) => (
           <div
             key={f.title}
-            className="rounded-2xl bg-white/5 border border-white/10 p-5 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.35)] glow-hover"
+            className="rounded-2xl bg-white/5 border border-white/10 p-4 sm:p-5 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.35)] glow-hover"
           >
             <h3 className="font-semibold text-white mb-2">{f.title}</h3>
             <p className="text-sm text-gray-300 leading-relaxed">{f.desc}</p>
@@ -160,7 +190,7 @@ export default function Landing() {
       </section>
 
       {/* FOOTER */}
-      <footer className="relative z-10 mt-12 mb-8 text-xs text-gray-400">
+      <footer className="relative z-10 mt-10 sm:mt-12 mb-8 text-[11px] sm:text-xs text-gray-400 text-center">
         © {new Date().getFullYear()} {site.brand} · Where intelligence meets automation.
       </footer>
 

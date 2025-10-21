@@ -40,3 +40,16 @@
 .read-the-docs {
   color: #888;
 }
+
+/* === Mobile-only full-page background & scroll behavior === */
+@media (max-width: 767px) {
+  html, body, **#root, main** {
+    background: #0B1222;
+    min-height: 100svh;
+    overscroll-behavior: none;
+  }
+
+  /** safety: if anything is clipping on mobile */
+  **.prevent-clip { overflow: visible !important; }**
+}
+
