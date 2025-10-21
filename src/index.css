@@ -245,24 +245,12 @@ html, body, #root { background: #0B1222; }
 
 /* Mobile-only: force dark background everywhere, stop iOS bounce showing white */
 @media (max-width: 767px) {
-  :root { color-scheme: dark; }
-
+  /* keep the dark background, but ALLOW pull-to-refresh */
   html, body, #root, main {
     background: #0B1222 !important;
     min-height: 100svh;
-    height: 100%;
-    overscroll-behavior-y: none;
+    /* NO overscroll-behavior here */
   }
 }
 
-/* Mobile-only: force dark background on the actual scroll container */
-@media (max-width: 767px) {
-  :root { color-scheme: dark; }
 
-  html, body, #root, main {
-    background: #0B1222 !important;
-    min-height: 100svh;      /* safe viewport height on iOS */
-    height: 100%;            /* fill gaps some toolbars cause */
-    overscroll-behavior-y: none;
-  }
-}
