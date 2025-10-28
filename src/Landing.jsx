@@ -59,89 +59,23 @@ const features = [
 ];
 
 export default function Landing() {
-  // Centered modal popup for Voiceflow share link (responsive sizing)
-  const openChatModal = () => {
-    if (!document.getElementById("vfModalStyles")) {
-      const style = document.createElement("style");
-      style.id = "vfModalStyles";
-      style.textContent = `
-        @keyframes vfBackdropIn   { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes vfBackdropOut  { from { opacity: 1 } to { opacity: 0 } }
-        @keyframes vfModalIn  { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.98) } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1) } }
-        @keyframes vfModalOut { 0% { opacity: 1; transform: translate(-50%, -50%) scale(1) } 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.98) } }
-      `;
-      document.head.appendChild(style);
+  function openVoiceflowWidget() {
+  // If the widget API is ready, open immediately. Otherwise wait briefly.
+  if (window.voiceflow?.chat?.open) {
+    window.voiceflow.chat.open();
+    return;
+  }
+  const start = Date.now();
+  const t = setInterval(() => {
+    if (window.voiceflow?.chat?.open) {
+      clearInterval(t);
+      window.voiceflow.chat.open();
+    } else if (Date.now() - start > 5000) {
+      clearInterval(t); // give up after 5s to avoid polling forever
     }
+  }, 100);
+}
 
-    const isMobile = window.matchMedia("(max-width: 640px)").matches;
-    const modalW = isMobile ? Math.round(window.innerWidth * 0.92) : 400; // px
-    const modalH = isMobile ? Math.round(window.innerHeight * 0.82) : 600; // px
-
-    const backdrop = document.createElement("div");
-    Object.assign(backdrop.style, {
-      position: "fixed",
-      inset: "0",
-      background: "rgba(0,0,0,0.6)",
-      zIndex: "9998",
-      animation: "vfBackdropIn 200ms ease-out forwards",
-    });
-
-    const iframe = document.createElement("iframe");
-    iframe.src = site.voiceflowURL;
-    Object.assign(iframe.style, {
-      position: "fixed",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: `${modalW}px`,
-      height: `${modalH}px`,
-      border: "none",
-      borderRadius: isMobile ? "12px" : "16px",
-      overflow: "hidden",
-      background: "transparent",
-      zIndex: "9999",
-      boxShadow: "0 8px 40px rgba(0,0,0,0.5)",
-      animation: "vfModalIn 220ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
-    });
-
-    const closeBtn = document.createElement("button");
-    closeBtn.textContent = "✕";
-    const closeTop = `calc(50% - ${Math.round(modalH / 2) + 10}px)`;
-    const closeRight = `calc(50% - ${Math.round(modalW / 2) + 10}px)`;
-    Object.assign(closeBtn.style, {
-      position: "fixed",
-      top: closeTop,
-      right: closeRight,
-      zIndex: "10000",
-      background: "rgba(0,0,0,0.45)",
-      color: "white",
-      border: "none",
-      fontSize: "20px",
-      cursor: "pointer",
-      padding: "6px 10px",
-      borderRadius: "8px",
-      backdropFilter: "blur(2px)",
-      lineHeight: "1",
-    });
-
-    const closeModal = () => {
-      iframe.style.animation = "vfModalOut 180ms ease-out forwards";
-      backdrop.style.animation = "vfBackdropOut 160ms ease-out forwards";
-      setTimeout(() => {
-        iframe.remove();
-        closeBtn.remove();
-        backdrop.remove();
-      }, 190);
-    };
-
-    closeBtn.onclick = closeModal;
-    backdrop.onclick = closeModal;
-
-    document.body.appendChild(backdrop);
-    document.body.appendChild(iframe);
-    document.body.appendChild(closeBtn);
-    setTimeout(() => iframe.focus?.(), 250);
-  };
 
 return (
   <main className="relative pt-24 md:pt-0 overflow-visible min-h-[100svh] md:min-h-screen flex flex-col items-center justify-center bg-[#0B1222] text-white px-4">
@@ -205,9 +139,10 @@ return (
           variants={item}
           className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3"
         >
-          <button onClick={openChatModal} className="shared-btn w-full sm:w-auto min-h-[44px]">
-            Try the Live Demo
-          </button>
+          <button onClick={openVoiceflowWidget} className="shared-btn w-full sm:w-auto min-h-[44px] cursor-pointer">
+  Try the Live Demo
+</button>
+
           <a
             href={site.calendly}
             target="_blank"
@@ -249,6 +184,18 @@ return (
           <p>Speed wins — hesitation loses.</p>
         </div>
       </motion.section>
+{/* CREDIBILITY STRIP */}
+<motion.section
+  variants={item}
+  className="relative z-10 mt-10 sm:mt-12 max-w-3xl mx-auto text-center px-4 text-gray-300 text-sm sm:text-base leading-relaxed"
+>
+  <p className="font-medium text-white">
+    Trusted automation framework used by operators nationwide.
+  </p>
+  <p className="mt-2 text-gray-300">
+    Deployed in under 24 hours · Zero missed leads · 100% response consistency
+  </p>
+</motion.section>
 
       {/* FOOTER */}
       <motion.footer
