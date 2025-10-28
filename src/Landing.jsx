@@ -1,3 +1,35 @@
+import { motion } from "framer-motion";
+
+const ease = [0.22, 1, 0.36, 1];
+
+const page = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { when: "beforeChildren", staggerChildren: 0.18, delayChildren: 0.15 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 14, filter: "blur(2px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.65, ease },
+  },
+};
+
+const featuresStagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+};
+
+const card = {
+  hidden: { opacity: 0, y: 10, scale: 0.98 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease } },
+};
+
 import React from "react";
 
 /* ---- Basic site config ---- */
@@ -113,84 +145,119 @@ export default function Landing() {
 
 return (
   <main className="relative pt-24 md:pt-0 overflow-visible min-h-[100svh] md:min-h-screen flex flex-col items-center justify-center bg-[#0B1222] text-white px-4">
-
-    {/* mobile fixed backdrop, sits behind everything */}
+    {/* mobile fixed backdrop */}
     <div className="md:hidden fixed inset-0 -z-10 bg-[#0B1222]" aria-hidden="true" />
 
-    {/* ambient animated gradient (defined as .aurora-bg in index.css) */}
+    {/* ambient animated gradient */}
     <div className="aurora-bg" aria-hidden="true" />
 
-    {/* HERO */}
-    <div className="relative z-10 max-w-3xl mx-auto text-center overflow-visible pt-[calc(env(safe-area-inset-top)+12px)] md:pt-0">
-
-      {/* Logo — MOBILE */}
-      <div className="md:hidden relative mx-auto mb-4
--   w-[50vw] max-w-[260px] aspect-square
-+   w-[40vw] max-w-[200px] aspect-square
-    mt-[calc(env(safe-area-inset-top)+28px)]">
-
-        <div className="echo-ring" />
-        <div className="echo-ring echo-ring--2" />
-        <div className="echo-ring echo-ring--3" />
-        <img
-          src="/echowave-mark-transparent.svg"
-          alt="EchoWave logo"
-          className="pointer-events-none select-none w-full h-full object-contain object-top brightness-125 mix-blend-screen"
-        />
-      </div>
-
-      {/* Logo — DESKTOP */}
-      <div className="hidden md:block relative mx-auto mb-5 h-20 w-20 overflow-visible">
-        <div className="echo-ring" />
-        <div className="echo-ring echo-ring--2" />
-        <div className="echo-ring echo-ring--3" />
-        <img
-          src="/echowave-mark-transparent.svg"
-          alt="EchoWave logo"
-          className="h-20 w-20 brightness-125 mix-blend-screen"
-        />
-      </div>
-
-      <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(59,130,246,0.3)]">
-        {site.brand}
-      </h1>
-      <p className="mt-2 text-lg sm:text-lg text-gray-100 tracking-wide">
-        {site.subheadline}
-      </p>
-
-      {/* CTAs */}
-      <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
-        <button onClick={openChatModal} className="shared-btn w-full sm:w-auto min-h-[44px]">
-          Try the Live Demo
-        </button>
-        <a
-          href={site.calendly}
-          target="_blank"
-          rel="noreferrer"
-          className="shared-btn w-full sm:w-auto min-h-[44px]"
+    {/* PAGE SEQUENCE WRAPPER — full width so features keep their size */}
+    <motion.div
+      className="relative z-10 w-full text-center overflow-visible pt-[calc(env(safe-area-inset-top)+12px)] md:pt-0"
+      variants={page}
+      initial="hidden"
+      animate="show"
+    >
+      {/* HERO (constrained to 3xl like before) */}
+      <div className="max-w-3xl mx-auto">
+        {/* Logo — MOBILE */}
+        <motion.div
+          variants={item}
+          className="md:hidden relative mx-auto mb-4 w-[40vw] max-w-[200px] aspect-square mt-[calc(env(safe-area-inset-top)+28px)]"
         >
-          Book a 10-Minute Call
-        </a>
-      </div>
-    </div>
+          <div className="echo-ring" />
+          <div className="echo-ring echo-ring--2" />
+          <div className="echo-ring echo-ring--3" />
+          <img
+            src="/echowave-mark-transparent.svg"
+            alt="EchoWave logo"
+            className="pointer-events-none select-none w-full h-full object-contain object-top brightness-125 mix-blend-screen"
+          />
+        </motion.div>
 
-    {/* FEATURE BUBBLES */}
-    <section className="relative z-10 mt-10 sm:mt-12 max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 px-0 sm:px-2">
-      {features.map((f) => (
-        <div
-          key={f.title}
-          className="rounded-2xl bg-white/5 border border-white/10 p-4 sm:p-5 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.35)] glow-hover"
+        {/* Logo — DESKTOP */}
+        <motion.div variants={item} className="hidden md:block relative mx-auto mb-5 h-20 w-20 overflow-visible">
+          <div className="echo-ring" />
+          <div className="echo-ring echo-ring--2" />
+          <div className="echo-ring echo-ring--3" />
+          <img
+            src="/echowave-mark-transparent.svg"
+            alt="EchoWave logo"
+            className="h-20 w-20 brightness-125 mix-blend-screen"
+          />
+        </motion.div>
+
+        {/* Brand */}
+        <motion.h1
+          variants={item}
+          className="text-4xl sm:text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(59,130,246,0.3)]"
         >
-          <h3 className="font-semibold text-white mb-2">{f.title}</h3>
-          <p className="text-sm text-gray-300 leading-relaxed">{f.desc}</p>
+          {site.brand}
+        </motion.h1>
+
+        {/* Subheadline */}
+        <motion.p variants={item} className="mt-2 text-lg sm:text-lg text-gray-100 tracking-wide">
+          {site.subheadline}
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          variants={item}
+          className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3"
+        >
+          <button onClick={openChatModal} className="shared-btn w-full sm:w-auto min-h-[44px]">
+            Try the Live Demo
+          </button>
+          <a
+            href={site.calendly}
+            target="_blank"
+            rel="noreferrer"
+            className="shared-btn w-full sm:w-auto min-h-[44px]"
+          >
+            Book a 10-Minute Call
+          </a>
+        </motion.div>
+      </div>
+
+      {/* FEATURE BUBBLES — same size as live site */}
+      <motion.section
+        variants={item}
+        className="relative z-10 mt-10 sm:mt-12 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 px-0 sm:px-2"
+      >
+        {features.map((f) => (
+          <div
+            key={f.title}
+            className="rounded-2xl bg-white/5 border border-white/10 p-4 sm:p-5 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.35)] glow-hover"
+          >
+            <h3 className="font-semibold text-white mb-2">{f.title}</h3>
+            <p className="text-sm text-gray-300 leading-relaxed">{f.desc}</p>
+          </div>
+        ))}
+      </motion.section>
+
+      {/* PERSUASION STRIP — centered */}
+      <motion.section
+        variants={item}
+        className="relative z-10 mt-12 sm:mt-16 max-w-3xl mx-auto text-center px-4"
+      >
+        <h2 className="text-[22px] sm:text-[24px] font-semibold text-white">
+          Always on. Always consistent. Always professional.
+        </h2>
+        <div className="mt-4 space-y-2 text-gray-300 text-[13px] sm:text-[15px] leading-relaxed">
+          <p>Delay costs deals. Consistency wins them.</p>
+          <p>Your competitor isn’t better — they’re faster.</p>
+          <p>Speed wins — hesitation loses.</p>
         </div>
-      ))}
-    </section>
+      </motion.section>
 
-    {/* FOOTER */}
-    <footer className="relative z-10 mt-10 sm:mt-12 mb-8 text-[11px] sm:text-xs text-gray-400 text-center">
-      © {new Date().getFullYear()} {site.brand} · Where intelligence meets automation.
-    </footer>
+      {/* FOOTER */}
+      <motion.footer
+        variants={item}
+        className="relative z-10 mt-10 sm:mt-12 mb-8 text-[11px] sm:text-xs text-gray-400 text-center"
+      >
+        © {new Date().getFullYear()} {site.brand} · Where intelligence meets automation.
+      </motion.footer>
+    </motion.div>
 
     {/* Soft radial background accent */}
     <div
