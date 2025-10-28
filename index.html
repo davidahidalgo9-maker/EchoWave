@@ -20,65 +20,77 @@
     <script type="module" src="/src/main.jsx"></script>
 
     <!-- Voiceflow widget -->
-    <script type="text/javascript">
-      (function (d, t) {
-        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-        v.onload = function () {
-          window.voiceflow.chat.load({
-            verify: { projectID: '68b898af116f7170139c12f6' },
-            url: 'https://general-runtime.voiceflow.com',
-            versionID: 'production',
-            voice: { url: 'https://runtime-api.voiceflow.com' },
+<script type="text/javascript">
+  (function (d, t) {
+    var v = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
 
-            /* ==== DARK PRO THEME ==== */
-            theme: {
-              colors: {
-                primary: '#60A5FA',       // accents & links
-                background: '#0B1222',    // app background
-                text: '#D1D5DB',          // base text
-                card: '#0D1322',          // surfaces
-              },
-              header: {
-                background: '#0B1222',
-                text: '#FFFFFF',
-                border: '1px solid rgba(255,255,255,0.06)',
-              },
-              chat: {
-                container: {
-                  width: 420,
-                  height: 620,
-                  borderRadius: 18,
-                  background: '#0B1222',
-                  boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                },
-                message: {
-                  bot: {
-                    background: '#0E162A',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    color: '#E5E7EB',
-                  },
-                  user: {
-                    background: '#152040',
-                    border: '1px solid rgba(255,255,255,0.10)',
-                    color: '#FFFFFF',
-                  },
-                },
-                input: {
-                  background: '#0E162A',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  text: '#FFFFFF',
-                  placeholder: 'rgba(255,255,255,0.40)',
-                },
-              },
+    v.onload = function () {
+      window.voiceflow.chat.load({
+        verify: { projectID: '68b898af116f7170139c12f6' },
+        url: 'https://general-runtime.voiceflow.com',
+        versionID: 'production',
+        voice: { url: 'https://runtime-api.voiceflow.com' },
+
+        /* ---- Optional theming (safe) ---- */
+        theme: {
+          colors: {
+            primary: '#60A5FA',
+            background: '#0B1222',
+            text: '#D1D5DB',
+            card: '#0D1322'
+          },
+          header: {
+            background: '#0B1222',
+            text: '#FFFFFF',
+            border: '1px solid rgba(255,255,255,0.06)'
+          },
+          chat: {
+            container: {
+              width: 420,
+              height: 620,
+              borderRadius: 18,
+              background: '#0B1222',
+              boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
+              border: '1px solid rgba(255,255,255,0.07)'
             },
-            /* ==== / DARK PRO THEME ==== */
-          });
-        };
-        v.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
-        v.type = 'text/javascript';
-        s.parentNode.insertBefore(v, s);
-      })(document, 'script');
-    </script>
+            message: {
+              bot: {
+                background: '#0E162A',
+                border: '1px solid rgba(255,255,255,0.07)',
+                color: '#E5E7EB'
+              },
+              user: {
+                background: '#152040',
+                border: '1px solid rgba(255,255,255,0.10)',
+                color: '#FFFFFF'
+              }
+            },
+            input: {
+              background: '#0E162A',
+              border: '1px solid rgba(255,255,255,0.08)',
+              text: '#FFFFFF',
+              placeholder: 'rgba(255,255,255,0.40)'
+            }
+          }
+        },
+
+        /* ---- Scroll lock while chat is open (prevents iOS jump) ---- */
+        events: {
+          open() {
+            document.body.style.overflow = 'hidden';
+          },
+          close() {
+            document.body.style.overflow = '';
+          }
+        }
+      });
+    };
+
+    v.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
+    v.type = 'text/javascript';
+    s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+</script>
   </body>
 </html>

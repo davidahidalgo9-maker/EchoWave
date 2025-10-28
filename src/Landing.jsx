@@ -78,7 +78,7 @@ export default function Landing() {
 
 
 return (
-  <main className="relative pt-24 md:pt-0 overflow-visible min-h-[100svh] md:min-h-screen flex flex-col items-center justify-center bg-[#0B1222] text-white px-4">
+  <main className="relative pt-24 md:pt-0 overflow-visible min-h-[100dvh] md:min-h-screen flex flex-col items-center justify-center bg-[#0B1222] text-white px-4">
     {/* mobile fixed backdrop */}
     <div className="md:hidden fixed inset-0 -z-10 bg-[#0B1222]" aria-hidden="true" />
 
